@@ -15,7 +15,7 @@ Install truffle
 ```
 npm install -g truffle
 ```
-
+Download ganache for your system.
 
 ## Running the tests
 
@@ -30,7 +30,7 @@ This is not meant to be deployed in production
 
 * [truffle](http://truffleframework.com/) - Your Ethereum Swiss army knife
 * [ganache](http://truffleframework.com/ganache/) - One click blockchain
-
+* [truffle react box](https://github.com/truffle-box/react-box) - using smart contracts from a react app
 
 
 ## Authors

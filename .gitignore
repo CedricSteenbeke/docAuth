@@ -109,3 +109,5 @@ fabric.properties
 .idea/httpRequests
 
 build
+#truffle
+build/contracts
