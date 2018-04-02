@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
-import getWeb3 from './utils/getWeb3'
+import DocAuthContract from '../build/contracts/DocAuth.json';
+import getWeb3 from './utils/getWeb3';
 import Home from './screens/home/index';
+import TruffleContract from 'truffle-contract';
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -44,17 +46,18 @@ class App extends Component {
      * state management library, but for convenience I've placed them here.
      */
 
-    const contract = require('truffle-contract')
-    const simpleStorage = contract(SimpleStorageContract)
-    simpleStorage.setProvider(this.state.web3.currentProvider)
-
+    const simpleStorage = TruffleContract(SimpleStorageContract);
+    const docAuthStorage = TruffleContract(DocAuthContract);
+    simpleStorage.setProvider(this.state.web3.currentProvider);
+    docAuthStorage.setProvider(this.state.web3.currentProvider);
     // Declaring this for later so we can chain functions on SimpleStorage.
-    var simpleStorageInstance
+    var simpleStorageInstance;
+    var docAuthInstance;
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
       simpleStorage.deployed().then((instance) => {
-        simpleStorageInstance = instance
+        simpleStorageInstance = instance;
 
         // Stores a given value, 5 by default.
         return simpleStorageInstance.set(5, {from: accounts[0]})
@@ -64,8 +67,12 @@ class App extends Component {
       }).then((result) => {
         // Update state with the result.
         return this.setState({ storageValue: result.c[0] })
+      });
+      docAuthInstance.deployed().then((instance)=> {
+        docAuthInstance = instance;
       })
-    })
+    });
+
   }
 
   render() {
@@ -79,6 +86,7 @@ class App extends Component {
           <div className="pure-g">
             <div className="pure-u-1-1">
               <Home/>
+              StorageValue: {this.state.storageValue}
             </div>
           </div>
         </main>

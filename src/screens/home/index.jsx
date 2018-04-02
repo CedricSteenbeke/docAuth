@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { UploadDocument } from "./components";
-import { addDocument } from './actions';
+import { DocumentsTable, UploadDocument } from "./components";
+import { addDocument, changeHash } from './actions';
 import { connect } from "react-redux";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.addDocument = this.addDocument.bind(this);
+    this.changeHash = this.changeHash.bind(this);
   }
 
   addDocument(doc) {
@@ -14,22 +15,31 @@ class Home extends Component {
     dispatch(addDocument(doc));
   }
 
+  changeHash(hash) {
+    const { dispatch } = this.props;
+    dispatch(changeHash(hash));
+  }
+
   render() {
-    const { hash } = this.props;
+    const { hash, documents } = this.props;
     return (
       <div>
         <h1>Add Document</h1>
-        <div>
-          <UploadDocument
-            addDocument={this.addDocument}
-            hash={hash}
-          />
-        </div>
+        <UploadDocument
+          addDocument={this.addDocument}
+          hash={hash}
+          changeHash={this.changeHash}
+        />
+        <h1>Documents</h1>
+        <DocumentsTable
+          documents={documents}
+        />
       </div>
     )
   }
 }
 
 export default connect(state => ({
-  hash: state.home.getIn(['add', 'hash'])
+  hash: state.home.getIn(['add', 'hash']),
+  documents: state.home.get('documents')
 }))(Home);

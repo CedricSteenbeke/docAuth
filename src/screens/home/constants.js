@@ -1,8 +1,10 @@
 import { prefixObjectValues } from '../../utils/helpers'
 
 export const PREFIX = '@@HOME/';
-const types = {
-  ADD_DOCUMENT: 'ADD_DOCUMENT'
+let types = {
+  ADD_DOCUMENT: 'ADD_DOCUMENT',
+  CHANGE_HASH: 'CHANGE_HASH'
 };
 
-export default prefixObjectValues(types, PREFIX);
+types = prefixObjectValues(types, PREFIX);
+export default types;

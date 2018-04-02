@@ -1,14 +1,19 @@
 import sjcl from 'sjcl';
-import types from 'constants';
+import types from './constants';
 
 export function addDocument(doc) {
-  debugger;
   const out = sjcl.hash.sha256.hash(doc);
-  const hash = sjcl.codec.hex.fromBits(out)
-  console.log(hash);
+  const hash = sjcl.codec.hex.fromBits(out);
 
   return {
     type: types.ADD_DOCUMENT,
+    hash
+  }
+}
+
+export function changeHash(hash) {
+  return {
+    type: types.CHANGE_HASH,
     hash
   }
 }
