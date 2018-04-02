@@ -18,6 +18,7 @@ contract DocAuth {
         require(documentToOwner[_documentHash] == 0);
         registeredDocuments[_documentHash] = DocMetadata(_title, _author, _email, _dateWritten);
         documentToOwner[_documentHash] = msg.sender;
+    
         ownerDocumentCount[msg.sender] ++;
         return true;
     }
