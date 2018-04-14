@@ -1,5 +1,5 @@
 pragma solidity ^0.4.18;
-import "DocAuth.sol";
+import "./DocAuth.sol";
 
 contract DocAuthFactory {
     address owner;
@@ -7,7 +7,7 @@ contract DocAuthFactory {
 
     modifier onlyOwner {
         if (msg.sender == owner)
-            _
+            _;
     }
 
     function DocAuthFactory(){
@@ -27,7 +27,7 @@ contract DocAuthFactory {
     }
 
     function remove() onlyOwner{
-        selfdestruct(owner)
+        selfdestruct(owner);
     }
 
 }
