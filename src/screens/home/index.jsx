@@ -10,9 +10,9 @@ class Home extends Component {
     this.changeHash = this.changeHash.bind(this);
   }
 
-  addDocument(doc) {
+  addDocument(file, doc) {
     const { dispatch } = this.props;
-    dispatch(addDocument(doc));
+    dispatch(addDocument(file, doc));
   }
 
   changeHash(hash) {

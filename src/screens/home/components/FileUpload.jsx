@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone'
 
 class FileUpload extends Component {
-  constructor(props) {
-    super(props);
-    this.addDocument = this.addDocument.bind(this);
+  addDocument = (file, doc)=> {
+    this.props.addDocument(file, doc);
   }
-
-  addDocument(doc) {
-    this.props.addDocument(doc);
-  }
-
 
   render() {
     return (
@@ -20,13 +14,12 @@ class FileUpload extends Component {
           reader.onload = () => {
             const fileAsBinaryString = reader.result;
             // do whatever you want with the file content
-            this.addDocument(fileAsBinaryString);
+            this.addDocument(file, fileAsBinaryString);
           };
           reader.onabort = () => console.log('file reading was aborted');
           reader.onerror = () => console.log('file reading has failed');
-
+          debugger;
           reader.readAsBinaryString(file);
-
         });
       }}/>
     )
