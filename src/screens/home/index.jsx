@@ -1,39 +1,43 @@
 import React, { Component } from 'react';
-import { DocumentsTable, UploadDocument } from "./components";
-import { addDocument, changeHash } from './actions';
+import { DocumentMetaData, DocumentsTable, UploadDocument } from "./components";
+import { changeHash, registerDocument } from './actions';
 import { connect } from "react-redux";
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.addDocument = this.addDocument.bind(this);
-    this.changeHash = this.changeHash.bind(this);
-  }
-
-  addDocument(file, doc) {
+  addDocument = (file, doc) => {
     const { dispatch } = this.props;
-    dispatch(addDocument(file, doc));
+    dispatch(registerDocument(file, doc));
   }
 
-  changeHash(hash) {
+  changeHash = (hash) => {
     const { dispatch } = this.props;
     dispatch(changeHash(hash));
   }
 
   render() {
-    const { hash, documents } = this.props;
+    const { hash, document, documents } = this.props;
     return (
       <div>
         <h1>Add Document</h1>
-        <UploadDocument
-          addDocument={this.addDocument}
-          hash={hash}
-          changeHash={this.changeHash}
-        />
+        <div className="row">
+          <div className="2-column">
+            <UploadDocument
+              addDocument={this.addDocument}
+              hash={hash}
+              changeHash={this.changeHash}
+            />
+          </div>
+          <div className="2-column">
+            <DocumentMetaData
+              document={document}
+            />
+          </div>
+        </div>
         <h1>Documents</h1>
         <DocumentsTable
           documents={documents}
         />
+
       </div>
     )
   }
@@ -41,5 +45,6 @@ class Home extends Component {
 
 export default connect(state => ({
   hash: state.home.getIn(['add', 'hash']),
+  document: state.home.getIn(['document']),
   documents: state.home.get('documents')
 }))(Home);

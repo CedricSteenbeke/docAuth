@@ -6,7 +6,7 @@ module.exports = {
       host: "127.0.0.1",
       port: 7545,
       network_id: "*",
-      gas: 3500000
+      gas: 4612388
     },
     live: {
       host: "178.25.19.88", // Random IP for example purposes (do not use)

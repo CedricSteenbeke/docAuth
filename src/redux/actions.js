@@ -26,7 +26,6 @@ export const instantiateContracts = () => (dispatch, getState) => {
   const currentProvider = getState().web3.get('web3Instance').currentProvider;
   DocAuth.setProvider(currentProvider);
 
-  debugger;
   dispatch({
     type: types.INSTANTIATE_CONTRACTS,
     contracts: {

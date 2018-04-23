@@ -18,7 +18,7 @@ class FileUpload extends Component {
           };
           reader.onabort = () => console.log('file reading was aborted');
           reader.onerror = () => console.log('file reading has failed');
-          debugger;
+
           reader.readAsBinaryString(file);
         });
       }}/>

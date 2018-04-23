@@ -1,20 +1,33 @@
 import sjcl from 'sjcl';
 import types from './constants';
 
-export function addDocument(file, doc) {
+export function registerDocument(file, doc) {
   const out = sjcl.hash.sha256.hash(doc);
   const docHash = sjcl.codec.hex.fromBits(out);
   const docTitle = file.name;
   const dWritten = file.lastModified;
 
   return (dispatch, getState) => {
-    console.log('');
-    debugger;
     const DocAuth = getState().web3.get('contracts').get('DocAuth');
     const accounts = getState().web3.get('accounts');
-    return DocAuth.deployed().then(docAuthInstance => {
+    let docAuthInstance;
+    return DocAuth.deployed().then(instance => {
+      docAuthInstance = instance;
+      debugger;
       return docAuthInstance.registerDocument(docHash, docTitle, "Leander Hoedt", "leander.hoedt@gmail.com", dWritten, { from: accounts.get(0) })
-    })
+    }).then(() => {
+      debugger;
+      return docAuthInstance.getDocumentMetadata(docHash);
+    }).then(docMetaData => {
+      dispatch(setDocumentMetaData(docMetaData));
+    });
+  }
+}
+
+function setDocumentMetaData(docMetaData) {
+  return {
+    type: types.SET_DOCUMENT_METADATA,
+    payload: docMetaData
   }
 }
 

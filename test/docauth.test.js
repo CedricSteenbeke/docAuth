@@ -1,10 +1,10 @@
 /* global it */
-const DocauthTest = artifacts.require("./DocAuth.sol");
+const DocAuthTest = artifacts.require("DocAuth.sol");
 
 contract('DocAuth', function(accounts) {
 
   it("should commit document Hash", function() {
-    return DocauthTest.deployed().then(function(instance) {
+    return DocAuthTest.deployed().then(function(instance) {
       docAuthInstance = instance;
       var docHash = "6EAFF5056948D7D28A58E56461D09B1AAA0345399F624D0CFBC856E64FB69FBC";
       var docTitle = "Intro to the assignment";
