@@ -16,7 +16,6 @@ export function registerDocument(file, doc) {
       debugger;
       return docAuthInstance.registerDocument(docHash, docTitle, "Leander Hoedt", "leander.hoedt@gmail.com", dWritten, { from: accounts.get(0) })
     }).then(() => {
-      debugger;
       return docAuthInstance.getDocumentMetadata(docHash);
     }).then(docMetaData => {
       dispatch(setDocumentMetaData(docMetaData));

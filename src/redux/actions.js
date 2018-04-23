@@ -16,7 +16,6 @@ const receiveAccounts = accounts => ({
 
 export const getAllAccounts = () => (dispatch, getState) => {
   getState().web3.get('web3Instance').eth.getAccounts((error, accounts) => {
-    console.log(accounts);
     dispatch(receiveAccounts(accounts));
   });
 };
