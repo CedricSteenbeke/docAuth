@@ -13,16 +13,13 @@ contract DocAuth {
     mapping (bytes32 => address)     documentToOwner;
     mapping (address => bytes32[])   ownerToDocument;
     mapping (address => uint256)     ownerDocumentCount;
-   // mapping (bytes32 => bytes32[])   registeredDocumentsForAuthor;
-    
+        
     function registerDocument(bytes32 _documentHash, bytes32 _title,  bytes32 _author, bytes32 _email, uint256 _dateWritten) public returns (bool){
         require(documentToOwner[_documentHash] == 0);
         registeredDocuments[_documentHash] = DocMetadata(_title, _author, _email, _dateWritten);
 
-        //registeredDocumentsForAuthor[_author][registeredDocumentsForAuthor[_author].length] = _documentHash;
-
         documentToOwner[_documentHash] = msg.sender;
-    
+        ownerToDocument[msg.sender].push(_documentHash);
         ownerDocumentCount[msg.sender] ++;
         return true;
     }
@@ -40,13 +37,12 @@ contract DocAuth {
         return (dmd.title, dmd.author, dmd.email, dmd.dateWritten);
     }
 
-//    function getDocumentsForAuthor(bytes32 _author) public view returns
-
     function getOwnerDocumentCount(address _docOwner) public view returns(uint256){
         return ownerDocumentCount[_docOwner];
     }
     
     function getDocumentsForOwner(address _docOwner, uint256 _documentId) public view returns(bytes32){
+        //should we check if uint256 is larger/smaller than ownerDocumentCount?
         return ownerToDocument[_docOwner][_documentId];
     }
 }
