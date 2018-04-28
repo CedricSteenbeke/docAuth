@@ -88,7 +88,8 @@ export const uploadDocument = (file, doc) => {
       return docAuthInstance.checkDocumentExistence.call(docHash);
     }).then((documentAlreadyExists) => {
       if (documentAlreadyExists === true) {
-        return dispatch(showNotification(`Document ${docHash} already exists and assigned to an author.`));
+        dispatch(showNotification(`Document ${docHash} already exists and assigned to author. (Author is visible in the metadata fetched above)`));
+        return dispatch(fetchDocumentMetaData(docHash));
       } else {
         return dispatch(registerDocument({
           hash: docHash,
