@@ -1,6 +1,6 @@
 /* global it */
 const DocAuthTest = artifacts.require("DocAuth.sol");
-const DocAuthFactoryTest = artifacts.require("DocAuthFactory.sol");
+//const DocAuthFactoryTest = artifacts.require("DocAuthFactory.sol");
 
 contract('DocAuth', (accounts) => {
   const docHash = "6EAFF5056948D7D28A58E56461D09B1A";
@@ -13,7 +13,7 @@ contract('DocAuth', (accounts) => {
     let docAuthInstance;
     return DocAuthTest.deployed().then((instance) => {
       docAuthInstance = instance;
-      return docAuthInstance.registerDocument(
+      docAuthInstance.registerDocument(
         docHash,
         docTitle,
         author,
@@ -30,7 +30,7 @@ contract('DocAuth', (accounts) => {
 
   it("should return document metadata", () => {
     return DocAuthTest.deployed().then((docAuthInstance) => {
-      return docAuthInstance.getDocumentMetadata(docHash);
+      return docAuthInstance.getDocumentMetadata.call(docHash);
     }).then(docMetaData => {
       assert.equal(web3.toAscii(docMetaData[0]).replace(/\u0000/g, ''), docTitle);
       assert.equal(web3.toAscii(docMetaData[1]).replace(/\u0000/g, ''), author);

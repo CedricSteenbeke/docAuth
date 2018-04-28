@@ -22,6 +22,7 @@ export const getAllAccounts = () => (dispatch, getState) => {
 
 export const instantiateContracts = () => (dispatch, getState) => {
   const DocAuth = TruffleContract(DocAuthContract);
+  // DocAuth.at('0xbab871fcdEaEd945210c6Ac58a8C67ACBC694C5b');
   const currentProvider = getState().web3.get('web3Instance').currentProvider;
   DocAuth.setProvider(currentProvider);
 

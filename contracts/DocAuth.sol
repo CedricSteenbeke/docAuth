@@ -8,30 +8,36 @@ contract DocAuth {
         bytes32 email;
         uint256 dateWritten;
     }
-    
-    mapping (bytes32 => DocMetadata) registeredDocuments;
-    mapping (bytes32 => address)     documentToOwner;
-    mapping (address => bytes32[])   ownerToDocument;
+    /**
+     * Events
+     */
+    event DocumentRegistered(bytes _documentHash);
+
+    mapping (bytes => DocMetadata) registeredDocuments;
+    mapping (bytes => address)     documentToOwner;
+    mapping (address => bytes[])   ownerToDocument;
     mapping (address => uint256)     ownerDocumentCount;
         
-    function registerDocument(bytes32 _documentHash, bytes32 _title,  bytes32 _author, bytes32 _email, uint256 _dateWritten) public returns (bool){
+    function registerDocument(bytes _documentHash, bytes32 _title,  bytes32 _author, bytes32 _email, uint256 _dateWritten) public returns (bool){
         require(documentToOwner[_documentHash] == 0);
         registeredDocuments[_documentHash] = DocMetadata(_title, _author, _email, _dateWritten);
 
         documentToOwner[_documentHash] = msg.sender;
         ownerToDocument[msg.sender].push(_documentHash);
         ownerDocumentCount[msg.sender] ++;
+
+        DocumentRegistered(_documentHash);
         return true;
     }
     
-    function checkDocumentExistence(bytes32 _documentHash) public view returns (bool){
+    function checkDocumentExistence(bytes _documentHash) public view returns (bool){
         if(documentToOwner[_documentHash] == 0){
             return false;
         }
         return true;
     }
     
-    function getDocumentMetadata(bytes32 _documentHash) public view returns (bytes32, bytes32, bytes32, uint256){
+    function getDocumentMetadata(bytes _documentHash) public view returns (bytes32, bytes32, bytes32, uint256){
         require(documentToOwner[_documentHash] != 0);
         DocMetadata storage dmd = registeredDocuments[_documentHash];
         return (dmd.title, dmd.author, dmd.email, dmd.dateWritten);
@@ -41,7 +47,7 @@ contract DocAuth {
         return ownerDocumentCount[_docOwner];
     }
     
-    function getDocumentsForOwner(address _docOwner, uint256 _documentId) public view returns(bytes32){
+    function getDocumentsForOwner(address _docOwner, uint256 _documentId) public view returns(bytes){
         //should we check if uint256 is larger/smaller than ownerDocumentCount?
         return ownerToDocument[_docOwner][_documentId];
     }
