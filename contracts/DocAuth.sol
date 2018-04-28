@@ -45,4 +45,7 @@ contract DocAuth {
         //should we check if uint256 is larger/smaller than ownerDocumentCount?
         return ownerToDocument[_docOwner][_documentId];
     }
+
+    // rejector
+    function() public {throw;}
 }
