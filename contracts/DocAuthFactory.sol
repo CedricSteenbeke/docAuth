@@ -1,17 +1,13 @@
 pragma solidity ^0.4.18;
 import "./DocAuth.sol";
+import "./Owned.sol";
+import "./Mortal.sol";
 
-contract DocAuthFactory {
-    address owner;
+contract DocAuthFactory is Owned, Mortal {
     address docAuth;
 
-    modifier onlyOwner {
-        if (msg.sender == owner)
-            _;
-    }
-
     function DocAuthFactory(){
-        owner == msg.sender;
+        owned();
         docAuth = address(new DocAuth());
     }
 
@@ -28,7 +24,7 @@ contract DocAuthFactory {
 
     function remove() onlyOwner{
         DocAuth(docAuth).remove();
-        selfdestruct(owner);
+        kill();
     }
 
 }
