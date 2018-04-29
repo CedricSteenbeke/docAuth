@@ -1,7 +1,8 @@
 pragma solidity ^0.4.18;
 
 contract DocAuth {
-    
+     address owner;
+
     struct DocMetadata {
         bytes32 title;
         bytes32 author;
@@ -17,7 +18,11 @@ contract DocAuth {
     mapping (bytes => address)     documentToOwner;
     mapping (address => bytes[])   ownerToDocument;
     mapping (address => uint256)     ownerDocumentCount;
-        
+
+    function DocAuth(){
+        owner = msg.sender;
+    }     
+
     function registerDocument(bytes _documentHash, bytes32 _title,  bytes32 _author, bytes32 _email, uint256 _dateWritten) public returns (bool){
         require(documentToOwner[_documentHash] == 0);
         registeredDocuments[_documentHash] = DocMetadata(_title, _author, _email, _dateWritten);
@@ -52,6 +57,11 @@ contract DocAuth {
         return ownerToDocument[_docOwner][_documentId];
     }
 
+    function remove() {
+        if (msg.sender == owner){
+            selfdestruct(owner);
+        }
+    }
     // rejector
     function() public {throw;}
 }

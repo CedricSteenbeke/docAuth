@@ -12,13 +12,13 @@ contract DocAuthFactory {
 
     function DocAuthFactory(){
         owner == msg.sender;
-        docAuth = new DocAuth();
+        docAuth = address(new DocAuth());
     }
 
     //Update the docAuth contract
     //used when there is a new version
     function setDocAuth() constant onlyOwner returns (bool res){
-        docAuth = new DocAuth();
+        docAuth = address(new DocAuth());
         return true;
     }
 
@@ -27,6 +27,7 @@ contract DocAuthFactory {
     }
 
     function remove() onlyOwner{
+        DocAuth(docAuth).remove();
         selfdestruct(owner);
     }
 
