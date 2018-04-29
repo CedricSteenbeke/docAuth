@@ -1,6 +1,7 @@
 import types from './constants';
 import TruffleContract from "truffle-contract";
 import DocAuthContract from '../../build/contracts/DocAuth.json';
+import { watchForContractEvents } from "../screens/home/actions";
 
 export const web3connect = (web3Instance) => {
   return {
@@ -32,4 +33,6 @@ export const instantiateContracts = () => (dispatch, getState) => {
       DocAuth
     },
   });
+
+  dispatch(watchForContractEvents());
 };

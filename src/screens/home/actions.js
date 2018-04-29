@@ -185,3 +185,25 @@ function setError(error) {
     error
   }
 }
+
+export const watchForContractEvents = () => {
+  return (dispatch, getState) => {
+    const DocAuth = getState().web3.getIn(['contracts', 'DocAuth']);
+    if (DocAuth) {
+      DocAuth.deployed().then(instance => {
+        instance.DocumentRegistered().watch((error, result) => {
+          dispatch(eventDocumentRegistered(`Document ${result.args._documentHash} is registered.`));
+        });
+
+      });
+    }
+  }
+};
+
+const eventDocumentRegistered = (msg) => {
+  return {
+    type: types.EVENT_DOCUMENT_REIGSTERED,
+    msg
+  }
+};
+

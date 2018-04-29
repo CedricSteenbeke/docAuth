@@ -58,7 +58,8 @@
     "react-dropzone": "^4.2.9",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "truffle-test-utils": "^0.1.0"
   },
   "scripts": {
     "start": "node scripts/start.js",

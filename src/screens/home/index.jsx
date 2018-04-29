@@ -4,6 +4,7 @@ import { changeHash, findDocumentsForAuthor, hideNotification, uploadDocument } 
 import { connect } from "react-redux";
 
 class Home extends Component {
+
   uploadDocument = (file, doc) => {
     const { dispatch } = this.props;
     dispatch(uploadDocument(file, doc));
@@ -25,7 +26,7 @@ class Home extends Component {
   };
 
   render() {
-    const { hash, document, documents, accounts, notification, contractError } = this.props;
+    const { hash, document, documents, accounts, notification, contractError, eventDocumentRegistered } = this.props;
 
     return (
       <div>
@@ -53,6 +54,12 @@ class Home extends Component {
             {notification.get('message')}
           </div>
         }
+        {
+          eventDocumentRegistered &&
+          <div>
+            EVENT DOCUMENT REGISTERED: {eventDocumentRegistered}
+          </div>
+        }
         <h1>Documents</h1>
         <DocumentsTable
           findDocumentsForAuthor={this.findDocumentsForAuthor}
@@ -70,5 +77,6 @@ export default connect(state => ({
   documents: state.home.get('documents'),
   accounts: state.web3.get('accounts'),
   notification: state.home.get('notification'),
-  contractError: state.home.get('contractError')
+  contractError: state.home.get('contractError'),
+  eventDocumentRegistered: state.home.get('eventDocumentRegistered'),
 }))(Home);

@@ -1,7 +1,8 @@
 pragma solidity ^0.4.18;
 
-contract DocAuth {
-    address owner;
+import "./Mortal.sol";
+
+contract DocAuth is Mortal {// Mortal inherits Owned !
 
     struct DocMetadata {
         bytes32 title;
@@ -13,15 +14,16 @@ contract DocAuth {
      * Events
      */
     event DocumentRegistered(bytes _documentHash);
-    event DocumentExists(bytes _documentHash, bool exists);
 
+    // variables
     mapping(bytes => DocMetadata) registeredDocuments;
     mapping(bytes => address)     documentToOwner;
     mapping(address => bytes[])   ownerToDocument;
     mapping(address => uint256)     ownerDocumentCount;
 
+    // constructor
     function DocAuth(){
-        owner = msg.sender;
+        owned();
     }
 
     function registerDocument(bytes _documentHash, bytes32 _title, bytes32 _author, bytes32 _email, uint256 _dateWritten) public returns (bool){
@@ -32,18 +34,16 @@ contract DocAuth {
         ownerToDocument[msg.sender].push(_documentHash);
         ownerDocumentCount[msg.sender] ++;
 
+        // emit event
         DocumentRegistered(_documentHash);
         return true;
     }
 
     function checkDocumentExistence(bytes _documentHash) public view returns (bool){
-        bool exists;
         if (documentToOwner[_documentHash] == 0) {
-            exists = false;
+            return false;
         }
-        exists = true;
-        DocumentExists(_documentHash, exists);
-        return exists;
+        return true;
     }
 
     function getDocumentMetadata(bytes _documentHash) public view returns (bytes32, bytes32, bytes32, uint256){
@@ -61,10 +61,8 @@ contract DocAuth {
         return ownerToDocument[_docOwner][_documentId];
     }
 
-    function remove() {
-        if (msg.sender == owner) {
-            selfdestruct(owner);
-        }
+    function remove() onlyOwner {
+        kill();
     }
     // rejector
     function() public {throw;}

@@ -11,7 +11,8 @@ const initialState = ImmutableMap({
     show: false,
     message: ""
   }),
-  contractError: null
+  contractError: null,
+  eventDocumentRegistered: null,
 });
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -34,6 +35,8 @@ export default function (state = initialState, action) {
       return state.mergeIn(['notfication'], {
         show: false
       });
+    case types.EVENT_DOCUMENT_REIGSTERED:
+      return state.setIn(['eventDocumentRegistered'], action.msg);
     case types.SET_CONTRACT_ERROR:
       return state.set('contractError', action.error);
     default:

@@ -1,9 +1,9 @@
 pragma solidity ^0.4.18;
+
 import "./DocAuth.sol";
-import "./Owned.sol";
 import "./Mortal.sol";
 
-contract DocAuthFactory is Owned, Mortal {
+contract DocAuthFactory is Mortal { // mortal inherits Owned !
     address docAuth;
 
     function DocAuthFactory(){
@@ -22,7 +22,7 @@ contract DocAuthFactory is Owned, Mortal {
         return docAuth;
     }
 
-    function remove() onlyOwner{
+    function remove() onlyOwner {
         DocAuth(docAuth).remove();
         kill();
     }
