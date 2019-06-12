@@ -35,7 +35,7 @@ This is not meant to be deployed in production
 
 ## Authors
 
-* **Cedric Steenbeke** - *Initial work* - [Shadak](https://github.com/Shadak)
+* **Cedric Steenbeke** - *Initial work* - [CedricSteenbeke](https://github.com/CedricSteenbeke)
 * **Leander Hoedt** - *Initial work* - [leanderhoedt](https://github.com/leanderhoedt)
 
 ## License
